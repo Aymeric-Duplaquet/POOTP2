@@ -1,0 +1,14 @@
+package Modele;
+
+public class Nourriture extends Element {
+
+	private boolean comestible=true;
+
+	public boolean isComestible() {
+		return comestible;
+	}
+
+	public void setComestible(boolean comestible) {
+		this.comestible = comestible;
+	}
+}

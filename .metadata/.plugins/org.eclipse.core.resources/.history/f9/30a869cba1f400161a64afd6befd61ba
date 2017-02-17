@@ -1,0 +1,53 @@
+package Interface;
+
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.List;
+
+import javax.swing.JPanel;
+import Modele.Nourriture;
+
+public class CustomMouseListener implements MouseListener {
+	
+	private Panneau pan;
+	private List<Nourriture> listFood;
+	
+	public CustomMouseListener(Panneau panneau) {
+		// TODO Auto-generated constructor stub
+		pan=panneau;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		System.out.println("x "+e.getX()+" y "+e.getY());
+		pan.setPosY(e.getY());
+		pan.setPosX(e.getX());
+		pan.repaint();
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}
