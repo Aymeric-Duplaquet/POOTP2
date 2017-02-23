@@ -23,10 +23,7 @@ public class Fenetre extends JFrame {
 		//On prévient notre JFrame que notre JPanel sera son content pane
 		this.setContentPane(pan);  
 		pan.addPigeon(5, 5);
-		pan.addPigeon(205, 5);
-		pan.addPigeon(405, 5);
-		pan.addPigeon(5, 205);
-		pan.addPigeon(5, 405);
+
 		this.setVisible(true);
 
 	}

@@ -6,19 +6,16 @@ import java.util.List;
 
 import javax.swing.plaf.SliderUI;
 
-import Interface.Panneau;
-
 public class Pigeon extends Element implements Runnable  {
 
 	private List<Nourriture> listFood = new ArrayList<Nourriture>();
-	private Panneau pan;
+	
 	private int vitessMax = 5;
 
-	public Pigeon(int X, int Y,List<Nourriture> list,Panneau panIn) {
+	public Pigeon(int X, int Y,List<Nourriture> list) {
 		super(X, Y);
 		// TODO Auto-generated constructor stub
 		listFood=list;
-		pan = panIn;
 	}
 
 
@@ -65,21 +62,9 @@ public class Pigeon extends Element implements Runnable  {
 					deplacementY=-vitessMax;
 				}
 				
-				posX-=deplacementX;
-				posY-=deplacementY;	
-				
-				if(posX==nourProche.getPosX() && posY==nourProche.getPoxY())
-				{
-					listFood.remove(nourProche);
-				}
-				
-				pan.repaint();
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				posX+=deplacementX;
+				posY+=deplacementY;	
+				Thread.sleep(100);
 			}
 		}
 	}

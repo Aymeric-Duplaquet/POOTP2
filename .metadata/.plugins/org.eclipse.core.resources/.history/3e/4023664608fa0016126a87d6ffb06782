@@ -67,12 +67,6 @@ public class Pigeon extends Element implements Runnable  {
 				
 				posX-=deplacementX;
 				posY-=deplacementY;	
-				
-				if(posX==nourProche.getPosX() && posY==nourProche.getPoxY())
-				{
-					listFood.remove(nourProche);
-				}
-				
 				pan.repaint();
 				try {
 					Thread.sleep(100);

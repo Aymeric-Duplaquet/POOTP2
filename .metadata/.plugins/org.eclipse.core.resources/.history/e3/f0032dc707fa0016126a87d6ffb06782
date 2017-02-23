@@ -23,7 +23,7 @@ public class Panneau extends JPanel {
 
 	public void paintComponent(Graphics g){
 		//On choisit une couleur de fond pour le rectangle
-		g.setColor(Color.YELLOW);
+		g.setColor(Color.GRAY);
 		//On le dessine de sorte qu'il occupe toute la surface
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
@@ -31,7 +31,7 @@ public class Panneau extends JPanel {
 			for (Nourriture nourriture : listFood) {
 
 				try {
-					Image img = ImageIO.read(new File("popcornRedim.png"));
+					Image img = ImageIO.read(new File("popcornPourri.png"));
 					g.drawImage(img, nourriture.getPosX(), nourriture.getPoxY(), this);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -51,10 +51,9 @@ public class Panneau extends JPanel {
 			}
 		} 
 		
-
+		
 
 	}
-	
 	
 
 	public void addFood(int x,int y){
@@ -62,7 +61,7 @@ public class Panneau extends JPanel {
 	}
 	
 	public void addPigeon(int x,int y){
-		Pigeon temp = new Pigeon(x,y,listFood,this);
+		Pigeon temp = new Pigeon(x,y,listFood);
 		listPigeon.add(temp);
 		Thread t = new Thread(temp);
 		t.start();
