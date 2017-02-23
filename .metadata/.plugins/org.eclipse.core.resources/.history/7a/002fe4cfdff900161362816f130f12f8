@@ -35,16 +35,23 @@ public class Panneau extends JPanel {
 			}
 		} 
 
+
+
 	}
 
 	public void addFood(int x,int y){
 		listFood.add(new Nourriture(x,y));
+		System.out.println(listFood.size());
 	}
 
 	@Override
 	public void update(Graphics g) {
 		// TODO Auto-generated method stub
 		super.update(g);
+
+
+
+
 
 	}
 

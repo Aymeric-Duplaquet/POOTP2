@@ -46,6 +46,10 @@ public class Panneau extends JPanel {
 		// TODO Auto-generated method stub
 		super.update(g);
 
+
+
+
+
 	}
 
 

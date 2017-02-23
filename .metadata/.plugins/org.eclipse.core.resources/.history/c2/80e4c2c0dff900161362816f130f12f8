@@ -35,6 +35,8 @@ public class Panneau extends JPanel {
 			}
 		} 
 
+
+
 	}
 
 	public void addFood(int x,int y){
@@ -45,6 +47,10 @@ public class Panneau extends JPanel {
 	public void update(Graphics g) {
 		// TODO Auto-generated method stub
 		super.update(g);
+
+
+
+
 
 	}
 
