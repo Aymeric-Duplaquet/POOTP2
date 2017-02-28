@@ -1,7 +1,9 @@
 package Modele;
 
+//  Pigeon et Nourriture héritent de cette classe abstraite.
 public  abstract class Element {
 	
+	// Coordonnés (X,Y)
 	protected int posX=0;
 	protected int posY=0;
 	

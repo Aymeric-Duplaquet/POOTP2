@@ -11,20 +11,21 @@ import Interface.Panneau;
 public class Pigeon extends Element implements Runnable  {
 
 	private List<Nourriture> listFood = new ArrayList<Nourriture>();
-	private Panneau pan;
-	private int vitessMax = 5;
+	protected Panneau pan;
+	private int vitessMax = 1;
 
-	public Pigeon(int X, int Y,List<Nourriture> list,Panneau panIn) {
+	public Pigeon(int X, int Y,Panneau panIn) {
 		super(X, Y);
 		// TODO Auto-generated constructor stub
-		listFood=list;
+		listFood=panIn.getListGoodFood();
 		pan = panIn;
 	}
 
 
 	@Override
 	public void run() {
-		
+		// Il est nécessaire de mettre à jour listGoodFood
+		listFood=pan.getListGoodFood();
 		while(true)
 		{
 			if(listFood.isEmpty()==true){
@@ -73,14 +74,26 @@ public class Pigeon extends Element implements Runnable  {
 					listFood.remove(nourProche);
 				}
 				
+				// Envoi la nouvelle liste de nourriture
+			//	pan.setListGoodFood(listFood);
 				pan.repaint();
 				try {
-					Thread.sleep(100);
+					Thread.sleep(17);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
+	}
+
+
+	public List<Nourriture> getListFood() {
+		return listFood;
+	}
+
+
+	public void setListFood(List<Nourriture> listFood) {
+		this.listFood = listFood;
 	}
 }
