@@ -36,7 +36,7 @@ public class Pigeon extends Element implements Runnable  {
 			{
 				double test = Math.random();
 				//2% de peur par itération 
-				if(test < 0.02)
+				if(test < 0.01)
 				{
 					
 					peurX = (int) (((float)Math.random() - 0.5f) * 160);
