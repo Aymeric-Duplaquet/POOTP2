@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.plaf.SliderUI;
 
@@ -14,6 +15,9 @@ public class Pigeon extends Element implements Runnable  {
 	private List<Nourriture> listFood;
 	protected Panneau pan;
 	private int vitessMax = 1;
+
+	private int peurX;
+	private int peurY;
 
 	public Pigeon(int X, int Y,Panneau panIn) {
 		super(X, Y);
@@ -27,74 +31,118 @@ public class Pigeon extends Element implements Runnable  {
 	public void run() {
 		while(true)
 		{
-			if(listFood.isEmpty()==true){
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			//Possibilité de peur aléatoir si pas déjà dans cet état
+			if(peurX == 0 && peurY == 0)
+			{
+				double test = Math.random();
+				//2% de peur par itération 
+				if(test < 0.02)
+				{
+					
+					peurX = (int) (((float)Math.random() - 0.5f) * 160);
+					peurY = (int) (((float)Math.random() - 0.5f) * 160);
+					
+					peurX += posX;
+					peurY += posY;
+					
+					
 				}
-			}else {
-				Nourriture nourProche; 
-				synchronized (listFood) {
-					nourProche= listFood.get(0);
-					double distanceMin = Point2D.distance(nourProche.getPosX(), nourProche.getPoxY(), getPosX(),getPoxY());
-					for (Iterator<Nourriture> iterator=listFood.iterator();iterator.hasNext();) {
-						Nourriture nourriture = iterator.next();
-						double distance = Point2D.distance(nourriture.getPosX(), nourriture.getPoxY(), getPosX(),getPoxY());
-						if(distance<distanceMin){
-							distanceMin=distance;
-							nourProche=nourriture;
+			}
+
+
+			if(peurX != 0 || peurY !=0)
+			{
+				
+				piegonDeplacement(peurX,peurY);
+				if(peurX == posX && peurY == posY)
+				{
+					peurX = 0;
+					peurY = 0;
+				}
+			}
+			else
+			{
+
+				if(listFood.isEmpty()==true){
+					try {
+						Thread.sleep(17);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				else {
+					synchronized (listFood) {
+						Nourriture nourProche; 
+						try
+						{
+							nourProche= listFood.get(0);
+						}
+						catch(IndexOutOfBoundsException e)
+						{
+							nourProche = null;
+						}
+						if(nourProche != null)
+						{
+							double distanceMin = Point2D.distance(nourProche.getPosX(), nourProche.getPoxY(), getPosX(),getPoxY());
+							for (Iterator<Nourriture> iterator=listFood.iterator();iterator.hasNext();) {
+								Nourriture nourriture = iterator.next();
+								double distance = Point2D.distance(nourriture.getPosX(), nourriture.getPoxY(), getPosX(),getPoxY());
+								if(distance<distanceMin){
+									distanceMin=distance;
+									nourProche=nourriture;
+								}
+							}
+							piegonDeplacement(nourProche.getPosX(), nourProche.getPoxY());
+							if(posX==nourProche.getPosX() && posY==nourProche.getPoxY())
+							{
+
+								listFood.remove(nourProche);
+
+							}
 						}
 					}
 				}
+			}
 
 
 
-				int deplacementX = posX - nourProche.getPosX();
-				if(deplacementX > vitessMax)
-				{
-					deplacementX=vitessMax;
-				}
-				if(deplacementX < -vitessMax)
-				{
-					deplacementX=-vitessMax;
-				}
-
-				int deplacementY = posY - nourProche.getPoxY();
-				if(deplacementY > vitessMax)
-				{
-					deplacementY=vitessMax;
-				}
-				if(deplacementY < -vitessMax)
-				{
-					deplacementY=-vitessMax;
-				}
-
-				posX-=deplacementX;
-				posY-=deplacementY;	
-
-
-				if(posX==nourProche.getPosX() && posY==nourProche.getPoxY())
-				{
-					synchronized (listFood) {
-						listFood.remove(nourProche);
-					}
-
-
-				}
-
-				pan.repaint();
-				try {
-					Thread.sleep(17);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			pan.repaint();
+			try {
+				Thread.sleep(17);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
 
+
+	private void piegonDeplacement(int cibleX,int cibleY)
+	{
+		int deplacementX = posX - cibleX;
+		if(deplacementX > vitessMax)
+		{
+			deplacementX=vitessMax;
+		}
+		if(deplacementX < -vitessMax)
+		{
+			deplacementX=-vitessMax;
+		}
+
+		int deplacementY = posY - cibleY;
+		if(deplacementY > vitessMax)
+		{
+			deplacementY=vitessMax;
+		}
+		if(deplacementY < -vitessMax)
+		{
+			deplacementY=-vitessMax;
+		}
+
+		posX-=deplacementX;
+		posY-=deplacementY;	
+	}
 
 	public List<Nourriture> getListFood() {
 		return listFood;
