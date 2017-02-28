@@ -24,7 +24,7 @@ public class Pigeon extends Element implements Runnable  {
 
 
 	@Override
-	public void run() {
+	public synchronized void run() {
 		while(true)
 		{
 			if(listFood.isEmpty()==true){
@@ -35,9 +35,8 @@ public class Pigeon extends Element implements Runnable  {
 					e.printStackTrace();
 				}
 			}else {
-				Nourriture nourProche; 
 				synchronized (listFood) {
-					nourProche= listFood.get(0);
+					Nourriture nourProche = listFood.get(0);
 					double distanceMin = Point2D.distance(nourProche.getPosX(), nourProche.getPoxY(), getPosX(),getPoxY());
 					for (Iterator<Nourriture> iterator=listFood.iterator();iterator.hasNext();) {
 						Nourriture nourriture = iterator.next();

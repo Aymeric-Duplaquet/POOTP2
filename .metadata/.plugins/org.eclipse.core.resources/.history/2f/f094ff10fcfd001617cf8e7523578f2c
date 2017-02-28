@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
@@ -23,14 +22,11 @@ import Modele.Pigeon;
 public class Panneau extends JPanel { 
 
 	// Liste de le nourriture comestible
-	private List<Nourriture> listGoodFood = Collections.synchronizedList(new ArrayList<Nourriture>());
+	private List<Nourriture> listGoodFood = new ArrayList<Nourriture>();
 	// Liste de la nourriture périmée
 	private List<Nourriture> listBadFood = new ArrayList<Nourriture>();
 	// Liste des Pigeons
 	private List<Pigeon> listPigeon = new ArrayList<Pigeon>();
-	
-	private List<Nourriture> CopylistGoodFood = new ArrayList<Nourriture>();
-	private List<Nourriture> CopylistBadFood = new ArrayList<Nourriture>();
 	
 	// Timer utile pour vérifier la fraicheur de la nourriture.
 	private Timer timer= new Timer();
@@ -42,16 +38,10 @@ public class Panneau extends JPanel {
 		g.setColor(new Color(51,153,204));
 		//On le dessine de sorte qu'il occupe toute la surface
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
-		
-		CopylistGoodFood .clear();
-		CopylistGoodFood.addAll(listGoodFood);
-		CopylistBadFood.clear();
-		CopylistBadFood.addAll(listBadFood);
 
-		
 		// Affichage des popcorns comestibles
-		if (CopylistGoodFood.isEmpty()==false){
-			for (Nourriture nourriture : CopylistGoodFood) {
+		if (listGoodFood.isEmpty()==false){
+			for (Nourriture nourriture : listGoodFood) {
 				try {
 					Image img = ImageIO.read(new File("popcornRedim.png"));
 					g.drawImage(img, nourriture.getPosX(), nourriture.getPoxY(), this);
@@ -62,8 +52,8 @@ public class Panneau extends JPanel {
 		} 
 		
 		// Affichage des popcorns périmés
-		if (CopylistBadFood.isEmpty()==false){
-			for (Iterator<Nourriture> iterator=CopylistBadFood.iterator();iterator.hasNext();) {
+		if (listBadFood.isEmpty()==false){
+			for (Iterator<Nourriture> iterator=listBadFood.iterator();iterator.hasNext();) {
 				Nourriture nourriture = iterator.next();
 				try {
 					Image img = ImageIO.read(new File("popcornPourri.png"));
@@ -94,7 +84,7 @@ public class Panneau extends JPanel {
 	}
 
 	// On ajoute xxx millisecondes à chaque nourriture et on vérifie si elles sont encore comestibles.
-	public void testNourritureFraiche(){
+	public synchronized void testNourritureFraiche(){
 		TimerTask task=new TimerTask() {
 			@SuppressWarnings("unused")
 			int temps=0;

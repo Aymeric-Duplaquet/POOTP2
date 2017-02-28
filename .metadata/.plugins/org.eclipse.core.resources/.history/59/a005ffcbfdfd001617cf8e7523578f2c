@@ -2,7 +2,6 @@ package Modele;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.plaf.SliderUI;
@@ -11,7 +10,7 @@ import Interface.Panneau;
 
 public class Pigeon extends Element implements Runnable  {
 
-	private List<Nourriture> listFood;
+	private List<Nourriture> listFood = new ArrayList<Nourriture>();
 	protected Panneau pan;
 	private int vitessMax = 1;
 
@@ -24,7 +23,7 @@ public class Pigeon extends Element implements Runnable  {
 
 
 	@Override
-	public void run() {
+	public synchronized void run() {
 		while(true)
 		{
 			if(listFood.isEmpty()==true){
@@ -35,22 +34,16 @@ public class Pigeon extends Element implements Runnable  {
 					e.printStackTrace();
 				}
 			}else {
-				Nourriture nourProche; 
-				synchronized (listFood) {
-					nourProche= listFood.get(0);
-					double distanceMin = Point2D.distance(nourProche.getPosX(), nourProche.getPoxY(), getPosX(),getPoxY());
-					for (Iterator<Nourriture> iterator=listFood.iterator();iterator.hasNext();) {
-						Nourriture nourriture = iterator.next();
-						double distance = Point2D.distance(nourriture.getPosX(), nourriture.getPoxY(), getPosX(),getPoxY());
-						if(distance<distanceMin){
-							distanceMin=distance;
-							nourProche=nourriture;
-						}
+				Nourriture nourProche = listFood.get(0);
+				double distanceMin = Point2D.distance(nourProche.getPosX(), nourProche.getPoxY(), getPosX(),getPoxY());
+				for (Nourriture nourriture : listFood) {
+					double distance = Point2D.distance(nourriture.getPosX(), nourriture.getPoxY(), getPosX(),getPoxY());
+					if(distance<distanceMin){
+						distanceMin=distance;
+						nourProche=nourriture;
 					}
 				}
-
-
-
+				
 				int deplacementX = posX - nourProche.getPosX();
 				if(deplacementX > vitessMax)
 				{
@@ -60,7 +53,7 @@ public class Pigeon extends Element implements Runnable  {
 				{
 					deplacementX=-vitessMax;
 				}
-
+				
 				int deplacementY = posY - nourProche.getPoxY();
 				if(deplacementY > vitessMax)
 				{
@@ -70,20 +63,15 @@ public class Pigeon extends Element implements Runnable  {
 				{
 					deplacementY=-vitessMax;
 				}
-
+				
 				posX-=deplacementX;
 				posY-=deplacementY;	
-
-
+				
 				if(posX==nourProche.getPosX() && posY==nourProche.getPoxY())
 				{
-					synchronized (listFood) {
-						listFood.remove(nourProche);
-					}
-
-
+					listFood.remove(nourProche);
 				}
-
+				
 				pan.repaint();
 				try {
 					Thread.sleep(17);
