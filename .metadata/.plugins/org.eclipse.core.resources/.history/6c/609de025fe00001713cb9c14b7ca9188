@@ -14,17 +14,14 @@ public class Pigeon extends Element implements Runnable  {
 
 	private List<Nourriture> listFood;
 	protected Panneau pan;
-	// Vitesse de déplacement des pigeons
 	private int vitessMax = 1;
 
-	// Variables de peur associées aux coordonnées (x,y)
 	private int peurX;
 	private int peurY;
 
 	public Pigeon(int X, int Y,Panneau panIn) {
 		super(X, Y);
 		// TODO Auto-generated constructor stub
-		// Nos pigeons ne s'intéressent qu'à la nourriture fraiche
 		listFood=panIn.getListGoodFood();
 		pan = panIn;
 	}
@@ -34,11 +31,11 @@ public class Pigeon extends Element implements Runnable  {
 	public void run() {
 		while(true)
 		{
-			//Possibilité de peur aléatoire si il n'y a pas déjà un état de peur
+			//Possibilit� de peur al�atoir si pas d�j� dans cet �tat
 			if(peurX == 0 && peurY == 0)
 			{
 				double test = Math.random();
-				//1% de chance d'avoir peur par itération 
+				//2% de peur par it�ration 
 				if(test < 0.01)
 				{
 					
@@ -52,12 +49,11 @@ public class Pigeon extends Element implements Runnable  {
 				}
 			}
 
-			// Si le pigeon est apeuré
+
 			if(peurX != 0 || peurY !=0)
 			{
-				// Le pigeon va se déplacer selon vers sa position de peur
+				
 				piegonDeplacement(peurX,peurY);
-				// Lorsqu'il atteint la position alors il n'a plus peur
 				if(peurX == posX && peurY == posY)
 				{
 					peurX = 0;
@@ -66,7 +62,7 @@ public class Pigeon extends Element implements Runnable  {
 			}
 			else
 			{
-				// Si la liste de nourriture est vide alors on attend 17 millisecondes
+
 				if(listFood.isEmpty()==true){
 					try {
 						Thread.sleep(17);
@@ -76,7 +72,6 @@ public class Pigeon extends Element implements Runnable  {
 					}
 				}
 				else {
-					// On créer un bloc synchronisé pour qu'un seul Thread à la fois accède à ce code.
 					synchronized (listFood) {
 						Nourriture nourProche; 
 						try
@@ -89,7 +84,6 @@ public class Pigeon extends Element implements Runnable  {
 						}
 						if(nourProche != null)
 						{
-							// On cherche la nourriture initialement fraiche la plus proche
 							double distanceMin = Point2D.distance(nourProche.getPosX(), nourProche.getPoxY(), getPosX(),getPoxY());
 							for (Iterator<Nourriture> iterator=listFood.iterator();iterator.hasNext();) {
 								Nourriture nourriture = iterator.next();
@@ -99,9 +93,7 @@ public class Pigeon extends Element implements Runnable  {
 									nourProche=nourriture;
 								}
 							}
-							// Le pigeon se dirige vers la nourriture initialement fraiche la plus proche
 							piegonDeplacement(nourProche.getPosX(), nourProche.getPoxY());
-							// Si le pigeon a atteint la nourriture alors celle-ci est supprimé de la list de nourriture
 							if(posX==nourProche.getPosX() && posY==nourProche.getPoxY())
 							{
 
@@ -117,7 +109,6 @@ public class Pigeon extends Element implements Runnable  {
 
 			pan.repaint();
 			try {
-				// On répète cela toutes les 17 millisecondes pour atteindre 60 images par secondes
 				Thread.sleep(17);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -126,7 +117,7 @@ public class Pigeon extends Element implements Runnable  {
 		}
 	}
 
-	// Gère le déplacement des pigeons d'une position initiale à une position finale à une vitesse donnée
+
 	private void piegonDeplacement(int cibleX,int cibleY)
 	{
 		int deplacementX = posX - cibleX;

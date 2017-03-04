@@ -1,0 +1,1 @@
+Appuyer sur le clique gauche de votre souris pour faire apparaitre de la nourriture à l'endroit désiré dans la fenêtre de jeu.

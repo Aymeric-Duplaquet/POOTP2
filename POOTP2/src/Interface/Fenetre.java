@@ -22,6 +22,7 @@ public class Fenetre extends JFrame {
 		pan.addMouseListener(new CustomMouseListener(pan));
 		//On prévient notre JFrame que notre JPanel sera son content pane
 		this.setContentPane(pan);  
+		// On ajoute 5 Pigeons au panneau
 		pan.addPigeon(5, 5);
 		pan.addPigeon(205, 5);
 		pan.addPigeon(405, 5);

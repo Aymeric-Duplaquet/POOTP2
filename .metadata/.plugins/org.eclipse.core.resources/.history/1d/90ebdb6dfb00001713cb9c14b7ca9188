@@ -28,14 +28,13 @@ public class Panneau extends JPanel {
 	private List<Nourriture> listBadFood = new ArrayList<Nourriture>();
 	// Liste des Pigeons
 	private List<Pigeon> listPigeon = new ArrayList<Pigeon>();
-
-	// On créer des nouvelles listes qui hébergeront des copies des liste de nourriture pour l'affichage
+	
 	private List<Nourriture> CopylistGoodFood = new ArrayList<Nourriture>();
 	private List<Nourriture> CopylistBadFood = new ArrayList<Nourriture>();
-
+	
 	// Timer utile pour vérifier la fraicheur de la nourriture.
 	private Timer timer= new Timer();
-	// Pour discriminer le premier passage dans la fonction paintComponent
+	// Pour discriminer le premier passage dans la fonction painComponent
 	private boolean depart=true;
 
 	public void paintComponent(Graphics g){
@@ -43,17 +42,16 @@ public class Panneau extends JPanel {
 		g.setColor(new Color(51,153,204));
 		//On le dessine de sorte qu'il occupe toute la surface
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
-
-		// On reset les copies des listes puis insère les listes listGoddFood et listBadFood
+		
 		CopylistGoodFood .clear();
 		CopylistGoodFood.addAll(listGoodFood);
 		CopylistBadFood.clear();
 		CopylistBadFood.addAll(listBadFood);
 
-
+		
 		// Affichage des popcorns comestibles
-		if (CopylistGoodFood.isEmpty()==false){
-			for (Nourriture nourriture : CopylistGoodFood) {
+		if (listGoodFood.isEmpty()==false){
+			for (Nourriture nourriture : listGoodFood) {
 				try {
 					Image img = ImageIO.read(new File("popcornRedim.png"));
 					g.drawImage(img, nourriture.getPosX(), nourriture.getPoxY(), this);
@@ -62,10 +60,10 @@ public class Panneau extends JPanel {
 				}  
 			}
 		} 
-
+		
 		// Affichage des popcorns périmés
-		if (CopylistBadFood.isEmpty()==false){
-			for (Iterator<Nourriture> iterator=CopylistBadFood.iterator();iterator.hasNext();) {
+		if (listBadFood.isEmpty()==false){
+			for (Iterator<Nourriture> iterator=listBadFood.iterator();iterator.hasNext();) {
 				Nourriture nourriture = iterator.next();
 				try {
 					Image img = ImageIO.read(new File("popcornPourri.png"));
@@ -75,7 +73,7 @@ public class Panneau extends JPanel {
 				}  
 			}
 		} 
-
+		
 		// Affichage des pigeons
 		if (listPigeon.isEmpty()==false){
 			for (Pigeon pigeon : listPigeon) {
@@ -87,7 +85,7 @@ public class Panneau extends JPanel {
 				}  
 			}
 		} 
-
+		
 		// Lancement du Timer uniquement au premier passage pour vérifier la fraicheur de la nourriture
 		if(depart==true){
 			testNourritureFraiche();
@@ -95,7 +93,7 @@ public class Panneau extends JPanel {
 		}
 	}
 
-	// On ajoute 1000 millisecondes à chaque nourriture et on vérifie si elles sont encore comestibles toutes les 1000 millisecondes.
+	// On ajoute xxx millisecondes à chaque nourriture et on vérifie si elles sont encore comestibles.
 	public void testNourritureFraiche(){
 		TimerTask task=new TimerTask() {
 			@SuppressWarnings("unused")
@@ -103,25 +101,23 @@ public class Panneau extends JPanel {
 			@Override
 			public void run() {
 				temps+=1000;
-				// Pour connaitre la position de la nourriture périmée dans la liste.
 				int k=0;
 				ArrayList mem = new ArrayList();
-
+				
 				if (listGoodFood.isEmpty()==false){
 					for (Nourriture nourriture : listGoodFood) {
 						int actuel = nourriture.getComestible();
 						// Test de la fraicheur
 						if(actuel>3000){
-							// On garde en mémoire la position de la nourriture dans la liste.
+							//listBadFood.add(nourriture);
 							mem.add(k);
 						}else{
-							// Ajout des 1000 millisecondes
 							nourriture.setComestible(actuel+1000);
+							System.out.println(nourriture.getComestible());
 						}
 						k++;
 					}
-
-					// Suppression de la nourriture périmée dans listGoodFood et ajout de celle-ci dans la liste listBadFood
+					
 					if(mem.isEmpty()==false){
 						for (Object object : mem) {
 							listGoodFood.remove(object);
@@ -134,11 +130,10 @@ public class Panneau extends JPanel {
 		timer.scheduleAtFixedRate(task, 1000, 1000);
 	}
 
-	// Ajout d'une nourriture à la liste
 	public void addFood(int x,int y){
 		listGoodFood.add(new Nourriture(x,y));
 	}
-	// Ajout d'un pigeon
+
 	public void addPigeon(int x,int y){
 		Pigeon temp = new Pigeon(x,y,this);
 		listPigeon.add(temp);
@@ -146,7 +141,7 @@ public class Panneau extends JPanel {
 		t.start();
 	}
 
-
+	
 	public List<Nourriture> getListGoodFood() {
 		return listGoodFood;
 	}

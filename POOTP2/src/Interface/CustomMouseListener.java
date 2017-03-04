@@ -38,8 +38,7 @@ public class CustomMouseListener implements MouseListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("x "+e.getX()+" y "+e.getY());
-		
+		// Ajout de la nourriture à la position (x,y) du clic de la souris sur le panneau
 		pan.addFood(e.getX(), e.getY());
 		pan.repaint();
 	}
