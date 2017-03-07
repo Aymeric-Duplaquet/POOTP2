@@ -105,7 +105,7 @@ public class Panneau extends JPanel {
 				temps+=1000;
 				// Pour connaitre la position de la nourriture périmée dans la liste.
 				int k=0;
-				ArrayList mem = new ArrayList();
+				ArrayList<Nourriture> mem = new ArrayList<Nourriture>();
 
 				if (listGoodFood.isEmpty()==false){
 					for (Nourriture nourriture : listGoodFood) {
@@ -113,7 +113,7 @@ public class Panneau extends JPanel {
 						// Test de la fraicheur
 						if(actuel>3000){
 							// On garde en mémoire la position de la nourriture dans la liste.
-							mem.add(k);
+							mem.add(nourriture);
 						}else{
 							// Ajout des 1000 millisecondes
 							nourriture.setComestible(actuel+1000);
@@ -123,9 +123,10 @@ public class Panneau extends JPanel {
 
 					// Suppression de la nourriture périmée dans listGoodFood et ajout de celle-ci dans la liste listBadFood
 					if(mem.isEmpty()==false){
-						for (Object object : mem) {
-							listGoodFood.remove(object);
-							listBadFood.add(listGoodFood.get((int) object));
+						for (Nourriture nourriture : mem) {
+							listBadFood.add(nourriture);
+							listGoodFood.remove(nourriture); 
+							
 						}
 					}
 				}

@@ -38,8 +38,8 @@ public class Pigeon extends Element implements Runnable  {
 			if(peurX == 0 && peurY == 0)
 			{
 				double test = Math.random();
-				//1% de chance d'avoir peur par itération 
-				if(test < 0.01)
+				//0.5% de chance d'avoir peur par itération 
+				if(test < 0.005)
 				{
 					
 					peurX = (int) (((float)Math.random() - 0.5f) * 160);
@@ -66,16 +66,9 @@ public class Pigeon extends Element implements Runnable  {
 			}
 			else
 			{
-				// Si la liste de nourriture est vide alors on attend 17 millisecondes
-				if(listFood.isEmpty()==true){
-					try {
-						Thread.sleep(17);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				else {
+				
+			// On vérifie que la liste ne soit pas vide
+			if(listFood.isEmpty()==false){
 					// On créer un bloc synchronisé pour qu'un seul Thread à la fois accède à ce code.
 					synchronized (listFood) {
 						Nourriture nourProche; 
@@ -112,8 +105,6 @@ public class Pigeon extends Element implements Runnable  {
 					}
 				}
 			}
-
-
 
 			pan.repaint();
 			try {

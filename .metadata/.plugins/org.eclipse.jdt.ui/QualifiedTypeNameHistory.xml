@@ -12,7 +12,6 @@
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.awt.geom.Point2D"/>
 <fullyQualifiedTypeName name="javax.swing.plaf.SliderUI"/>
-<fullyQualifiedTypeName name="Modele.Nourriture"/>
 <fullyQualifiedTypeName name="Modele.Pigeon"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="java.lang.Thread"/>
@@ -20,4 +19,5 @@
 <fullyQualifiedTypeName name="java.util.TimerTask"/>
 <fullyQualifiedTypeName name="java.lang.reflect.Array"/>
 <fullyQualifiedTypeName name="javax.swing.text.AttributeSet.ColorAttribute"/>
+<fullyQualifiedTypeName name="Modele.Nourriture"/>
 </qualifiedTypeNameHistroy>
